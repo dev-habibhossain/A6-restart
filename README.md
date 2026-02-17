@@ -1,16 +1,14 @@
-1) What is the difference between null and undefined?
-=> null hocce zekhane kono 
+1. What is the difference between null and undefined?
+=> undefined mane hocce ekta variable declare kora hoyeche kintu tar bitor kono value set kora hoyni. Ar null hocce ekta intentional value, mane developer nije theke variable-ta khali bojhate null boshiye diyeche.
 
-2) What is the use of the map() function in JavaScript? How is it different from forEach()?
+2. What is the use of the map() function in JavaScript? How is it different from forEach()?
+=> map() function use kora hoy ekta array theke nuton arekta array bananor jonno (eta value return kore). Ar forEach() sudu array-r upore loop chalay, kintu kono kichu return kore na.
 
-3) What is the difference between == and ===?
+3. What is the difference between == and ===?
 => == hocce sudu man dekhe .. ar === maner pasapasi type o dekhe.
 
-4) What is the significance of async/await in fetching API data?
-
+4. What is the significance of async/await in fetching API data?
 => async function e use kora hoy zar maddome surutei bujhiye deoya hoy ze data asyncronized babhe asbe,, ar async use korle data server theke asar khetre ektu opekkha korar jonno await use kora hoy.
 
-5) Explain the concept of Scope in JavaScript (Global, Function, Block).
-
-=> global scope hocce emon area zekhane thaka zekono data zekono jayga theke dora jay..
-ar function scope hocce kono function er bitor kono data oi function er moddei dhora zay, function er baire sei data dhora zay na. Block mane hocce 
+5. Explain the concept of Scope in JavaScript (Global, Function, Block).
+=> global scope hocce emon area zekhone thaka zekono data zekono jayga theke dora jay.. ar function scope hocce kono function er bitor kono data oi function er moddei dhora zay, function er baire sei data dhora zay na. Block scope mane hocce sudu ekta specific curly braces {} er bitorer area.
