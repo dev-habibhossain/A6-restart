@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
+    <title>SwiftCart | Shop</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #fff; }
+        .active-btn { background-color: #4F39F6 !important; color: white !important; border-color: #4F39F6 !important; }
+    </style>
+  </head>
+  <body>
+
+    <div class="drawer drawer-end">
+      <input id="cart-drawer" type="checkbox" class="drawer-toggle" />
+      
+      <div class="drawer-content flex flex-col">
+        <header>
+          <div class="navbar bg-base-100 shadow-sm sticky top-0 z-50">
+            <div class="max-w-5xl mx-auto w-full flex items-center">
+              <div class="navbar-start">
+                <a href="/" class="text-[#4F39F6] text-3xl font-bold">SwiftCart</a>
+              </div>
+
+              <div class="navbar-center hidden lg:flex text-black">
+                <ul class="flex gap-8 font-bold text-sm">
+                    <li><a href="index.html" class="hover:text-[#4F39F6]">Home</a></li>
+                    <li><a href="products.html" class="hover:text-[#4F39F6]">Products</a></li>
+                    <li class="hover:text-[#4F39F6] font-semibold"><a href="#">About</a></li>
+                  <li class="hover:text-[#4F39F6] font-semibold"><a href="#">Contact</a></li>
+                </ul>
+            </div>
+              
+              <div class="navbar-end gap-1">
+                <label for="cart-drawer" class="btn bg-base-100 border-none shadow-none cursor-pointer">
+                  <div class="indicator">
+                    <i class="fa-solid fa-cart-shopping text-2xl"></i>
+                    <span id="cart-count" class="badge badge-xs badge-primary indicator-item">0</span>
+                  </div>
+                </label>
+
+                <div class="dropdown dropdown-end">
+                  <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                  </div>
+                  <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow-2xl">
+                   <li><a href="index.html" class="hover:text-[#4F39F6]">Home</a></li>
+                    <li><a href="products.html" class="hover:text-[#4F39F6]">Products</a></li>
+                    <li class="hover:text-[#4F39F6] font-semibold"><a href="#">About</a></li>
+                  <li class="hover:text-[#4F39F6] font-semibold"><a href="#">Contact</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <main class="min-h-screen pb-20">
+          <section class="pt-12 pb-8 text-center">
+              <h1 class="text-4xl font-extrabold text-black mb-6">Discover Collections</h1>
+              <div id="category-container" class="flex flex-wrap justify-center gap-2 px-4">
+                  <button onclick="loadProducts('all')" class="cat-btn active-btn btn btn-sm rounded-lg px-6 font-bold capitalize">All</button>
+              </div>
+          </section>
+
+          <section class="max-w-6xl mx-auto px-4 lg:px-0">
+              <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                  </div>
+          </section>
+        </main>
+      </div> 
+
+      <div class="drawer-side z-[60]">
+        <label for="cart-drawer" class="drawer-overlay"></label>
+        <div class="menu p-6 w-80 md:w-96 min-h-full bg-white text-base-content flex flex-col">
+          <h2 class="text-2xl font-black mb-6 flex items-center gap-2 text-black">
+            <i class="fa-solid fa-bag-shopping text-[#4F39F6]"></i> Your Cart
+          </h2>
+          
+          <div id="cart-items-list" class="flex-1 overflow-y-auto space-y-4">
+              </div>
+
+          <div class="border-t border-gray-100 pt-6 mt-6">
+              <div class="flex justify-between text-lg font-bold mb-4 text-black">
+                  <span>Total:</span>
+                  <span id="cart-total" class="text-[#4F39F6]">$0.00</span>
+              </div>
+              <button class="btn btn-primary btn-block rounded-xl font-bold h-14 text-lg">Checkout Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <dialog id="details_modal" class="modal">
+      <div class="modal-box max-w-4xl p-0 rounded-3xl overflow-hidden shadow-2xl">
+        <div class="flex flex-col md:flex-row min-h-[450px]">
+            <div class="md:w-5/12 bg-[#F8F9FA] p-10 flex items-center justify-center">
+                <img id="modal-img" src="" class="max-h-72 object-contain drop-shadow-2xl" />
+            </div>
+            <div class="md:w-7/12 p-8 md:p-12 relative">
+                <form method="dialog">
+                    <button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4">✕</button>
+                </form>
+                <div id="modal-cat" class="text-[10px] font-black text-[#4F39F6] uppercase tracking-[3px] mb-2"></div>
+                <h3 id="modal-title" class="text-2xl font-extrabold text-black mb-4 leading-tight"></h3>
+                
+                <div class="flex items-center gap-4 mb-6 text-black">
+                    <div class="flex items-center text-orange-400 gap-1 text-sm font-bold">
+                        <i class="fa-solid fa-star"></i> <span id="modal-rate" class="text-black ml-1"></span>
+                    </div>
+                    <div class="h-4 w-[1px] bg-gray-200"></div>
+                    <span class="text-green-600 text-xs font-bold uppercase">In Stock</span>
+                </div>
+
+                <p id="modal-desc" class="text-gray-500 text-sm leading-relaxed mb-8 line-clamp-4"></p>
+                
+                <div class="flex items-center justify-between border-t border-gray-100 pt-8 mt-auto text-black">
+                    <div>
+                        <p class="text-xs font-bold text-gray-400 uppercase mb-1">Price</p>
+                        <span id="modal-price" class="text-3xl font-black"></span>
+                    </div>
+                    <button id="modal-add-btn" class="btn btn-primary btn-lg rounded-2xl px-10 shadow-lg shadow-primary/20">
+                        Add to Cart
+                    </button>
+                </div>
+            </div>
+        </div>
+      </div>
+    </dialog>
+
+    <script>
+        // Load cart from LocalStorage immediately
+        let cart = JSON.parse(localStorage.getItem('swiftCartItems')) || [];
+
+        // 1. Fetch Categories
+        async function loadCategories() {
+            const res = await fetch('https://fakestoreapi.com/products/categories');
+            const cats = await res.json();
+            const container = document.getElementById('category-container');
+            cats.forEach(c => {
+                const btn = document.createElement('button');
+                btn.className = "cat-btn btn btn-sm btn-ghost border border-gray-100 rounded-lg px-6 font-bold text-gray-500 capitalize";
+                btn.innerText = c;
+                btn.onclick = (e) => {
+                    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active-btn'));
+                    btn.classList.add('active-btn');
+                    loadProducts(c);
+                };
+                container.appendChild(btn);
+            });
+        }
+
+        // 2. Load Products
+        async function loadProducts(category = 'all') {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = `<div class="col-span-full py-20 text-center"><span class="loading loading-spinner text-primary"></span></div>`;
+            const url = category === 'all' ? 'https://fakestoreapi.com/products' : `https://fakestoreapi.com/products/category/${category}`;
+            const res = await fetch(url);
+            const data = await res.json();
+            
+            grid.innerHTML = data.map(p => `
+                <div class="bg-white border border-gray-100 rounded-2xl p-4 transition-all hover:shadow-xl group">
+                    <div class="relative h-48 bg-[#FBFBFC] rounded-xl flex items-center justify-center mb-4 overflow-hidden">
+                        <img src="${p.image}" class="h-32 object-contain group-hover:scale-110 transition-transform duration-500" />
+                    </div>
+                    <p class="text-[10px] font-bold text-[#4F39F6] uppercase mb-1">${p.category}</p>
+                    <h3 class="text-sm font-bold text-gray-800 mb-4 truncate">${p.title}</h3>
+                    <div class="flex items-center justify-between">
+                        <span class="text-lg font-black text-black">$${p.price.toFixed(2)}</span>
+                        <div class="flex gap-1">
+                            <button onclick="showDetails(${p.id})" class="btn btn-square btn-sm btn-ghost border-gray-100"><i class="fa-solid fa-eye text-xs"></i></button>
+                            <button onclick="addToCart(${p.id}, '${p.title.replace(/'/g, "\\'")}', ${p.price}, '${p.image}')" class="btn btn-square btn-sm btn-primary"><i class="fa-solid fa-plus text-xs"></i></button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 3. Show Modal
+        async function showDetails(id) {
+            const res = await fetch(`https://fakestoreapi.com/products/${id}`);
+            const p = await res.json();
+            document.getElementById('modal-img').src = p.image;
+            document.getElementById('modal-cat').innerText = p.category;
+            document.getElementById('modal-title').innerText = p.title;
+            document.getElementById('modal-desc').innerText = p.description;
+            document.getElementById('modal-rate').innerText = p.rating.rate;
+            document.getElementById('modal-price').innerText = `$${p.price.toFixed(2)}`;
+            
+            document.getElementById('modal-add-btn').onclick = () => {
+                addToCart(p.id, p.title, p.price, p.image);
+                document.getElementById('details_modal').close();
+            };
+            
+            document.getElementById('details_modal').showModal();
+        }
+
+        // 4. Shared Cart Logic
+        function saveAndUpdate() {
+            localStorage.setItem('swiftCartItems', JSON.stringify(cart));
+            updateCartUI();
+        }
+
+        function addToCart(id, title, price, image) {
+            const existing = cart.find(item => item.id === id);
+            if (existing) {
+                existing.qty++;
+            } else {
+                cart.push({ id, title, price, image, qty: 1 });
+            }
+            saveAndUpdate();
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            saveAndUpdate();
+        }
+
+        function updateCartUI() {
+            const count = cart.reduce((acc, item) => acc + item.qty, 0);
+            const total = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+            
+            document.getElementById('cart-count').innerText = count;
+            document.getElementById('cart-total').innerText = `$${total.toFixed(2)}`;
+            
+            const list = document.getElementById('cart-items-list');
+            if (cart.length === 0) {
+                list.innerHTML = `<p class="text-center text-gray-400 mt-10 italic">Your cart is empty.</p>`;
+                return;
+            }
+
+            list.innerHTML = cart.map(item => `
+                <div class="flex items-center gap-4 bg-gray-50 p-3 rounded-xl">
+                    <img src="${item.image}" class="w-12 h-12 object-contain bg-white p-1 rounded-lg" />
+                    <div class="flex-1 text-black">
+                        <h4 class="text-xs font-bold line-clamp-1">${item.title}</h4>
+                        <p class="text-xs text-[#4F39F6] font-bold">$${item.price} x ${item.qty}</p>
+                    </div>
+                    <button onclick="removeFromCart(${item.id})" class="text-red-400 hover:text-red-600 px-2">
+                        <i class="fa-solid fa-trash-can text-xs"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Run on load
+        updateCartUI();
+        loadCategories();
+        loadProducts();
+    </script>
+  </body>
+</html>
